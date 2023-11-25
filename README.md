@@ -1,2 +1,2 @@
 # grandwaiter
-A unique alternative to the already existing promisify pattern.
+A unique alternative to the well-known Node JS promisify pattern.
