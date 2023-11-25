@@ -1,15 +1,17 @@
 /**
  * G R A N D  -  W A I T E R 🫱🏼‍🫲🏾
- * 
+ *
+ * M A D - H O U S E
+ *
  * Hi there 👋🏼 Glad to have you here!
- * 
+ *
  * So this package was created with one goal in mind - figure out a different way to handle callbacks in the asynchronous world of NodeJS aside the usual "promisify" patterns out there.
  * This means it was made to work with methods/functions whose callback syntax may not follow the (error, data, ...) standard.
- * 
+ *
  * You may find it useful in the way it also allows you control the flow of code execution
  *
  * And so without further delay, happy exploration! 🏳️
-*/
+ */
 
 const wait_array_name = "wait_list";
 
@@ -112,3 +114,44 @@ module.exports = (init_minimum_count) => {
   };
   return _this;
 };
+
+/**
+ * grand_waiter.wait_for(
+ *   2,
+ *   ["log-request", "created-user", ...],
+ *   { match: "<regex>", matchAll: ["<regex-statement-1>", "<regex-statement-2>", ...] },
+ *   (append_list) => Date.now() === 12345 && ["log-request", "created-user"].every(expexted_block_item => append_list.includes(expected_block_item)),
+ *
+ * )
+ */
+
+gw.async_cb;
+gw.search;
+gw.wait_for;
+gw.done;
+gw.wait_for_all;
+
+gw.async_cb("in-&-out", async (context) => {
+  await fetch_db_op();
+
+  await gw.wait_for(["created-user"]);
+
+  await save_db_op();
+
+  await gw.append("log-request");
+});
+
+gw.async_cb(
+  "second-call",
+  async (context) => {
+    await gw.wait_for(["log-request"]);
+    //
+
+    await save_db_op();
+  },
+  { dependencies: ["log-request"] },
+  false, // true - executes the callback immediately or (false) at a later time, in which case the result of this async_cb() must be assigned to a variable.
+  async (context) => {
+    // retrace steps in case this cb fails to execute
+  }
+);
